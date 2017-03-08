@@ -58,6 +58,28 @@ namespace TechJobsConsole
             return jobs;
         }
 
+        public static List<Dictionary<string, string>> FindByValue(string searchstr)
+        {
+            string svalue = "";
+            // load data, if not already loaded
+            LoadData();
+
+            List<Dictionary<string, string>> jobs = new List<Dictionary<string, string>>();
+
+            foreach (Dictionary<string, string> row in AllJobs)
+            {
+                foreach(string k in row.Keys)
+                {
+                    svalue = row[k].ToLower();
+                    if (svalue.Contains(searchstr.ToLower()))
+                    {
+                        jobs.Add(row);
+                    }
+                }
+            }
+            return jobs;
+        }
+
         /*
          * Load and parse data from job_data.csv
          */
@@ -97,6 +119,7 @@ namespace TechJobsConsole
                     rowDict.Add(headers[i], row[i]);
                 }
                 AllJobs.Add(rowDict);
+                
             }
 
             IsDataLoaded = true;
@@ -138,5 +161,7 @@ namespace TechJobsConsole
 
             return rowValues.ToArray();
         }
+
+
     }
 }
